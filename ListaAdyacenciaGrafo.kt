@@ -12,16 +12,32 @@ class ListaAdyacenciaGrafo<T> : Grafo<T> {
     override fun contiene (v: T): Boolean = v in adyacencias
 
     override fun conectar(desde: T, hasta: T): Boolean {
+        if (!contiene(desde) || !contiene(hasta)) { 
+            return false
+        }
+        
+        val adyacentes = adyacencias[desde] ?: return false
+        if (adyacentes.contains(hasta)) {
+            return false
+        }
 
-        return false
+        adyacentes.add(hasta)
+        return true
     }
 
     override fun eliminarVertice(v: T): Boolean {
-        return false
+        if(!contiene(v)){
+            return false
+        }
+        adyacencias.remove(v)
+        for (adyacentes in adyacencias.values) {
+            adyacentes.remove(v)
+        }
+        return true
     }
 
     override fun obtenerArcosSalida(v: T): List<T> {
-        return emptyList()
+        return adyacencias[v] ?: emptyList()
     }
 
     override fun obtenerArcosEntrada(v: T): List<T> {
