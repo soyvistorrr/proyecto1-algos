@@ -2,7 +2,7 @@ class ListaAdyacenciaGrafo<T> : Grafo<T> {
     private val adyacencias = mutableMapOf<T, MutableList<T>>()
 
     override fun agregarVertice(v: T): Boolean {
-        if (adyacencias.containsKey(v)) { 
+        if (contiene(v)) { 
             return false
         }
         adyacencias[v] = mutableListOf()
@@ -15,12 +15,10 @@ class ListaAdyacenciaGrafo<T> : Grafo<T> {
         if (!contiene(desde) || !contiene(hasta)) { 
             return false
         }
-        
         val adyacentes = adyacencias[desde] ?: return false
         if (adyacentes.contains(hasta)) {
             return false
         }
-
         adyacentes.add(hasta)
         return true
     }
@@ -70,6 +68,8 @@ class ListaAdyacenciaGrafo<T> : Grafo<T> {
                 }
             }
         }
+        
     return nuevoGrafo
+    
     }
 }
