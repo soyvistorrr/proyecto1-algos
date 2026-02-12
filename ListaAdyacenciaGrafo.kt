@@ -39,7 +39,7 @@ class ListaAdyacenciaGrafo<T> : Grafo<T> {
     }
 
     override fun obtenerArcosEntrada(v: T): List<T> {
-        if (!adyacencias.containsKey(v)) 
+        if (!contiene(v)) 
         return emptyList()
 
         return adyacencias
@@ -70,6 +70,18 @@ class ListaAdyacenciaGrafo<T> : Grafo<T> {
         }
         
     return nuevoGrafo
+
+    }
     
+    override fun toString(): String {
+        return buildString {
+            append("Grafo de ${tamano()} vertices:\n")
+            for (vertice in adyacencias) {
+                if (vertice.value.isEmpty()) {
+                    append("${vertice.key} -> Sin adyacentes\n")
+                }
+                append("${vertice.key} -> ${vertice.value.joinToString(" -> ")}\n")
+            }
+        }
     }
 }
