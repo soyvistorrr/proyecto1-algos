@@ -63,36 +63,36 @@ A continuación se presenta el análisis de complejidad temporal asintótica par
 **Funciones**  
 
 * **agregarVertice**  
-* **Complejidad:** O(1)  
-* **Explicacion:** La inserción en un `MutableMap` (HashMap) tiene un costo amortizado constante. Solo se verifica si la clave existe y se agrega la nueva entrada.  
+**Complejidad:** O(1)  
+**Explicacion:** La inserción en un `MutableMap` (HashMap) tiene un costo amortizado constante. Solo se verifica si la clave existe y se agrega la nueva entrada.  
 
 * **conectar**  
-* **Complejidad:** O(D_{out})  
-* **Explicacion:** Aunque el acceso al vértice origen es O(1), se debe recorrer su lista de adyacencia (de tamaño D_{out}) para verificar que el arco no exista previamente y evitar duplicados.  
+**Complejidad:** O(D_{out})  
+**Explicacion:** Aunque el acceso al vértice origen es O(1), se debe recorrer su lista de adyacencia (de tamaño D_{out}) para verificar que el arco no exista previamente y evitar duplicados.  
 
 * **contiene**  
-* **Complejidad:** O(1)  
-* **Explicacion:** La búsqueda de una clave en un `HashMap` (operación `containsKey`) es una operación de tiempo constante promedio.  
+**Complejidad:** O(1)  
+**Explicacion:** La búsqueda de una clave en un `HashMap` (operación `containsKey`) es una operación de tiempo constante promedio.  
 
 * **eliminarVertice**  
-* **Complejidad:** O(V + E)  
-* **Explicacion:** Eliminar el vértice del mapa es O(1), pero es necesario recorrer las listas de adyacencia de todos los demás vértices (V) y sus aristas (E) para encontrar y eliminar cualquier arco entrante hacia el vértice borrado.  
+**Complejidad:** O(V + E)  
+**Explicacion:** Eliminar el vértice del mapa es O(1), pero es necesario recorrer las listas de adyacencia de todos los demás vértices (V) y sus aristas (E) para encontrar y eliminar cualquier arco entrante hacia el vértice borrado.  
 
 * **obtenerArcosSalida**  
-* **Complejidad:** O(1)  
-* **Explicacion:** Se retorna directamente la referencia a la lista de sucesores almacenada en el mapa. No requiere iterar ni copiar elementos.  
+**Complejidad:** O(1)  
+**Explicacion:** Se retorna directamente la referencia a la lista de sucesores almacenada en el mapa. No requiere iterar ni copiar elementos.  
 
 * **obtenerArcosEntrada**  
-* **Complejidad:** O(V + E)  
-* **Explicacion:** Dado que la implementación es por listas de adyacencia (solo conocemos los sucesores), debemos recorrer todos los vértices (V) y sus respectivas listas de arcos (E) para filtrar quiénes apuntan al vértice objetivo.  
+**Complejidad:** O(V + E)  
+**Explicacion:** Dado que la implementación es por listas de adyacencia (solo conocemos los sucesores), debemos recorrer todos los vértices (V) y sus respectivas listas de arcos (E) para filtrar quiénes apuntan al vértice objetivo.  
 
 * **tamaño**  
-* **Complejidad:** O(1)  
-* **Explicacion:** Se utiliza la propiedad `.size` del mapa, la cual mantiene un contador interno actualizado automáticamente, evitando un conteo lineal.  
+**Complejidad:** O(1)  
+**Explicacion:** Se utiliza la propiedad `.size` del mapa, la cual mantiene un contador interno actualizado automáticamente, evitando un conteo lineal.  
 
 * **subgrafo**  
-* **Complejidad:** O(V' + E')  
-* **Explicacion:** Se iteran únicamente los vértices de la colección solicitada y sus vecinos directos. Gracias a las verificaciones O(1) del mapa, la complejidad es lineal respecto al tamaño del subgrafo resultante (V' vértices y E' arcos).  
+**Complejidad:** O(V' + E')  
+**Explicacion:** Se iteran únicamente los vértices de la colección solicitada y sus vecinos directos. Gracias a las verificaciones O(1) del mapa, la complejidad es lineal respecto al tamaño del subgrafo resultante (V' vértices y E' arcos).  
 
 
 
