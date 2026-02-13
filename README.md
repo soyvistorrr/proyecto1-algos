@@ -1,14 +1,14 @@
 # Proyecto I: Grafo - Implementación con Listas de Adyacencia
 
-## Universidad Simón Bolívar
-## Departamento de Computación y Tecnología de la Información
-**Asignatura:** Algoritmos y Estructuras de Datos III (CI-2693)
-**Trimestre:** Enero-Marzo 2026
+**Universidad Simón Bolívar**  
+**Departamento de Computación y Tecnología de la Información**  
+**Asignatura:** Algoritmos y Estructuras de Datos III (CI-2693)  
+**Trimestre:** Enero-Marzo 2026  
 
 ## Integrantes
  
 ### Nombre Completo y Carnet
-Victor Hernandez 20-10349
+Victor Hernandez 20-10349  
 Daniela Gragirena 19-10543
 
 ## Instrucciones de Ejecución
