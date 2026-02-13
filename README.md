@@ -25,23 +25,31 @@ Para compilar y ejecutar el proyecto correctamente, siga estos pasos:
 
 * **Ubicación:** Abra una terminal (CMD o PowerShell) y navegue hasta la carpeta raíz del proyecto donde se encuentran los archivos .kt.
 
+```bash
 cd ruta/a/tu/proyecto  
+```
 
 * **Compilación:** Ejecute el siguiente comando para compilar todos los archivos fuente (Grafo.kt, ListaAdyacenciaGrafo.kt, Main.kt) simultáneamente y generar un ejecutable .jar:
 
+```bash
 kotlinc *.kt -include-runtime -d ProyectoGrafo.jar  
+```
 
 (**Nota:** Es importante usar *.kt para que el compilador reconozca todas las clases e interfaces al mismo tiempo).
 
 * **Ejecución:** Una vez generado el archivo sin errores, ejecute el programa con:
 
+```bash
 java -jar ProyectoGrafo.jar
+```
 
 ## Ejemplo de Uso y Prueba
 
 Para verificar el correcto funcionamiento de todas las funcionalidades implementadas, se puede utilizar el siguiente código en el archivo `Main.kt`. Este ejemplo cubre la creación del grafo, conexión de vértices y generación de un subgrafo.
 
+```kotlin
 
+```
 
 ## Complejidad Computacional (Big O)
 
