@@ -48,7 +48,19 @@ java -jar ProyectoGrafo.jar
 Para verificar el correcto funcionamiento de todas las funcionalidades implementadas, se puede utilizar el siguiente código en el archivo `Main.kt`. Este ejemplo cubre la creación del grafo, conexión de vértices y generación de un subgrafo.
 
 ```kotlin
-
+fun main() {
+    val grafo = ListaAdyacenciaGrafo<Int>()
+    grafo.agregarVertice(5)
+    grafo.agregarVertice(7)
+    grafo.agregarVertice(3)
+    grafo.conectar(5, 3)
+    grafo.conectar(3, 7)
+    grafo.conectar(3, 3)
+    grafo.contiene(5)
+    println(grafo.toString())
+    val subgrafo = grafo.subgrafo(listOf(3, 7))
+    println("$subgrafo")
+}
 ```
 
 ## Complejidad Computacional (Big O)
