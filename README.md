@@ -1,137 +1,132 @@
-# Proyecto I: Grafo - Implementación con Listas de Adyacencia
+<div align="center">
 
-**Universidad Simón Bolívar**  
-**Departamento de Computación y Tecnología de la Información**  
-**Asignatura:** Algoritmos y Estructuras de Datos III (CI-2693)  
-**Trimestre:** Enero-Marzo 2026  
+# 🕸️ Generic Graph Data Structure (Adjacency Lists)
 
-## Integrantes
- 
-### Nombre Completo y Carnet
-Victor Hernandez 20-10349  
-Daniela Gragirena 19-10543
+**Robust, type-safe generic directed and undirected graph engine in Kotlin with asymptotic complexity guarantees.**
 
-## Instrucciones de Ejecución
+Developed for **CI-2693: Algorithms and Data Structures III** at [Universidad Simón Bolívar (USB)](https://www.usb.ve/).
 
-El proyecto ha sido desarrollado utilizando el lenguaje **Kotlin**. A continuación se detallan los pasos para compilar y ejecutar el código fuente.
+[![Kotlin](https://img.shields.io/badge/Language-Kotlin-7F52FF?style=flat-square&logo=kotlin&logoColor=white)](https://kotlinlang.org/)
+[![JDK](https://img.shields.io/badge/Java-11%2B-ED8B00?style=flat-square&logo=openjdk&logoColor=white)](https://openjdk.org/)
+[![Graph Theory](https://img.shields.io/badge/Data%20Structure-Adjacency%20List-success?style=flat-square)](#complejidad-computacional-big-o)
+[![License](https://img.shields.io/badge/License-Academic-lightgrey?style=flat-square)](#autores)
 
-### 1. Requisitos Previos
-* Tener instalado el JDK (Java Development Kit) versión 8 o superior.
+</div>
 
-* Tener instalado el compilador de Kotlin (kotlinc) configurado en el PATH del sistema.
+---
 
-### 2. Ejecución desde la Terminal
-Para compilar y ejecutar el proyecto correctamente, siga estos pasos:
+## 📌 Overview
 
-* **Ubicación:** Abra una terminal (CMD o PowerShell) y navegue hasta la carpeta raíz del proyecto donde se encuentran los archivos .kt.
+This repository implements a production-grade, generic graph data structure (`ListaAdyacenciaGrafo<T> : Grafo<T>`) using **Adjacency Lists** backed by Kotlin's hash maps and linked structures. The design prioritizes type safety, memory efficiency, and optimal asymptotic time bounds for vertex/edge manipulation, neighborhood traversal, and induced subgraph generation.
 
-```bash
-cd ruta/a/tu/proyecto  
+---
+
+## 🏛️ Architecture & Interface Contract
+
+```mermaid
+classDiagram
+    class Grafo~T~ {
+        <<interface>>
+        +agregarVertice(v: T): Boolean
+        +eliminarVertice(v: T): Boolean
+        +conectar(u: T, v: T): Boolean
+        +desconectar(u: T, v: T): Boolean
+        +contiene(v: T): Boolean
+        +estanConectados(u: T, v: T): Boolean
+        +obtenerVertices(): Set~T~
+        +obtenerArcosSalida(v: T): List~T~
+        +obtenerArcosEntrada(v: T): List~T~
+        +subgrafo(vertices: Collection~T~): Grafo~T~
+    }
+
+    class ListaAdyacenciaGrafo~T~ {
+        -adyacencias: MutableMap~T, MutableList~T~~
+        +agregarVertice(v: T): Boolean
+        +eliminarVertice(v: T): Boolean
+        +conectar(u: T, v: T): Boolean
+        +desconectar(u: T, v: T): Boolean
+        +contiene(v: T): Boolean
+        +estanConectados(u: T, v: T): Boolean
+        +obtenerVertices(): Set~T~
+        +obtenerArcosSalida(v: T): List~T~
+        +obtenerArcosEntrada(v: T): List~T~
+        +subgrafo(vertices: Collection~T~): ListaAdyacenciaGrafo~T~
+    }
+
+    Grafo <|.. ListaAdyacenciaGrafo : implements
 ```
 
-* **Compilación:** Ejecute el siguiente comando para compilar todos los archivos fuente (Grafo.kt, ListaAdyacenciaGrafo.kt, Main.kt) simultáneamente y generar un ejecutable .jar:
+---
 
+## ⚡ Asymptotic Computational Complexity (Big O)
+
+Let:
+- $V$: Number of vertices in the graph.
+- $E$: Number of edges in the graph.
+- $D_{out}$: Out-degree of vertex $u$ (number of successors).
+- $D_{in}$: In-degree of vertex $v$ (number of predecessors).
+
+| Operation | Complexity | Description & Rationale |
+| :--- | :---: | :--- |
+| `agregarVertice(v)` | $\mathcal{O}(1)$ | Amortized constant insertion into internal `HashMap`. |
+| `contiene(v)` | $\mathcal{O}(1)$ | Key lookup in constant average time. |
+| `conectar(u, v)` | $\mathcal{O}(D_{out})$ | Checks adjacency list of $u$ to prevent multi-edges before appending. |
+| `desconectar(u, v)` | $\mathcal{O}(D_{out})$ | Linear scan over successors list to remove target edge. |
+| `estanConectados(u, v)` | $\mathcal{O}(D_{out})$ | Linear scan across successors of $u$. |
+| `obtenerArcosSalida(v)` | $\mathcal{O}(1)$ | Direct reference retrieval to the adjacency list of successors. |
+| `obtenerArcosEntrada(v)` | $\mathcal{O}(V + E)$ | Requires filtering predecessors across all incident vertex edge sets. |
+| `eliminarVertice(v)` | $\mathcal{O}(V + E)$ | Removes vertex in $\mathcal{O}(1)$ and purges all incoming edges in $\mathcal{O}(V + E)$. |
+| `subgrafo(V')` | $\mathcal{O}(V' + E')$ | Computes the induced subgraph for subset $V' \subseteq V$. |
+
+---
+
+## 🛠️ Compilation & Execution
+
+### Prerequisites
+- Java JDK 11 or higher.
+- Kotlin Compiler (`kotlinc`).
+
+### Building from CLI
 ```bash
-kotlinc *.kt -include-runtime -d ProyectoGrafo.jar  
-```
+# Clone the repository
+git clone https://github.com/soyvistorrr/proyecto1-algos.git
+cd proyecto1-algos
 
-(**Nota:** Es importante usar *.kt para que el compilador reconozca todas las clases e interfaces al mismo tiempo).
+# Compile all Kotlin sources into executable JAR
+kotlinc *.kt -include-runtime -d ProyectoGrafo.jar
 
-* **Ejecución:** Una vez generado el archivo sin errores, ejecute el programa con:
-
-```bash
+# Run the program
 java -jar ProyectoGrafo.jar
 ```
 
-## Ejemplo de Uso y Prueba
-
-Para verificar el correcto funcionamiento de todas las funcionalidades implementadas, se puede utilizar el siguiente código en el archivo `Main.kt`. Este ejemplo cubre la creación del grafo, conexión de vértices y generación de un subgrafo.
-
+### Usage Example
 ```kotlin
 fun main() {
     val grafo = ListaAdyacenciaGrafo<Int>()
-    grafo.agregarVertice(5)
-    grafo.agregarVertice(7)
+    
+    // Add vertices
+    grafo.agregarVertice(1)
+    grafo.agregarVertice(2)
     grafo.agregarVertice(3)
-    grafo.conectar(5, 3)
-    grafo.conectar(3, 7)
-    grafo.conectar(3, 3)
-    grafo.contiene(5)
-    println(grafo.toString())
-    val subgrafo = grafo.subgrafo(listOf(3, 7))
-    println("$subgrafo")
+
+    // Connect directed edges: 1 -> 2, 2 -> 3, 1 -> 3
+    grafo.conectar(1, 2)
+    grafo.conectar(2, 3)
+    grafo.conectar(1, 3)
+
+    println("Vertices: ${grafo.obtenerVertices()}")
+    println("Arcos de salida de 1: ${grafo.obtenerArcosSalida(1)}")
+    
+    // Extract induced subgraph for vertices {1, 2}
+    val sub = grafo.subgrafo(listOf(1, 2))
+    println("Subgrafo inducido: $sub")
 }
 ```
 
-## Complejidad Computacional (Big O)
+---
 
-A continuación se presenta el análisis de complejidad temporal asintótica para cada método implementado en la clase `ListaAdyacenciaGrafo`.
+## 👥 Authors
+- **Victor Hernández** ([@soyvistorrr](https://github.com/soyvistorrr))
+- **Daniela Gragirena** ([@DanielaGragirena](https://github.com/DanielaGragirena))
 
-**Leyenda:**
-* V: Número total de vértices en el grafo.
-* E: Número total de arcos (lados) en el grafo.
-* D_{out}: Grado de salida del vértice (cantidad de sucesores).
-
-**Funciones**  
-
-* **agregarVertice**  
-**Complejidad:** O(1)  
-**Explicacion:** La inserción en un `MutableMap` (HashMap) tiene un costo amortizado constante. Solo se verifica si la clave existe y se agrega la nueva entrada.  
-
-* **conectar**  
-**Complejidad:** O(D_{out})  
-**Explicacion:** Aunque el acceso al vértice origen es O(1), se debe recorrer su lista de adyacencia (de tamaño D_{out}) para verificar que el arco no exista previamente y evitar duplicados.  
-
-* **contiene**  
-**Complejidad:** O(1)  
-**Explicacion:** La búsqueda de una clave en un `HashMap` (operación `containsKey`) es una operación de tiempo constante promedio.  
-
-* **eliminarVertice**  
-**Complejidad:** O(V + E)  
-**Explicacion:** Eliminar el vértice del mapa es O(1), pero es necesario recorrer las listas de adyacencia de todos los demás vértices (V) y sus aristas (E) para encontrar y eliminar cualquier arco entrante hacia el vértice borrado.  
-
-* **obtenerArcosSalida**  
-**Complejidad:** O(1)  
-**Explicacion:** Se retorna directamente la referencia a la lista de sucesores almacenada en el mapa. No requiere iterar ni copiar elementos.  
-
-* **obtenerArcosEntrada**  
-**Complejidad:** O(V + E)  
-**Explicacion:** Dado que la implementación es por listas de adyacencia (solo conocemos los sucesores), debemos recorrer todos los vértices (V) y sus respectivas listas de arcos (E) para filtrar quiénes apuntan al vértice objetivo.  
-
-* **tamaño**  
-**Complejidad:** O(1)  
-**Explicacion:** Se utiliza la propiedad `.size` del mapa, la cual mantiene un contador interno actualizado automáticamente, evitando un conteo lineal.  
-
-* **subgrafo**  
-**Complejidad:** O(V' + E')  
-**Explicacion:** Se iteran únicamente los vértices de la colección solicitada y sus vecinos directos. Gracias a las verificaciones O(1) del mapa, la complejidad es lineal respecto al tamaño del subgrafo resultante (V' vértices y E' arcos).  
-
-
-
-## Explicación de Decisiones de Implementación
-
-Para el desarrollo de la solución, se tomaron decisiones de diseño fundamentadas tanto en la eficiencia algorítmica como en las características modernas del lenguaje Kotlin. A continuación se detallan los puntos clave:
-
-### 1. Representación del Grafo: Listas de Adyacencia
-Se optó por implementar el grafo utilizando el modelo de **Listas de Adyacencia** en lugar de una Matriz de Adyacencia.
-* **Justificación:** La complejidad espacial de una matriz es siempre O(V^2), lo cual es ineficiente para **grafos dispersos** (aquellos con pocos arcos en relación a los vértices), que son el caso más común en aplicaciones reales. Las listas de adyacencia reducen el consumo de memoria a O(V + E).
-
-### 2. Estructuras de Datos Internas (`HashMap` + `ArrayList`)
-Siguiendo las recomendaciones del enunciado, se utilizó la colección `MutableMap<T, MutableList<T>>` como núcleo de la clase:
-* **Elección del Mapa (HashMap):** Se utilizó un mapa hash para almacenar los vértices como claves. Esto permite verificar la existencia de un vértice (`contiene`) y acceder a su lista de vecinos en tiempo constante promedio O(1). Si hubiéramos usado una lista simple para guardar los vértices, estas operaciones costarían O(V).
-* **Elección de la Lista (MutableList):** Se utilizó una lista dinámica para almacenar los sucesores de cada vértice, permitiendo la inserción de arcos en tiempo amortizado constante y preservando el orden de inserción.
-
-### 3. Enfoque Declarativo (Programación Funcional)
-Para métodos que requieren procesamiento de colecciones, como `obtenerArcosEntrada`, se decidió evitar los bucles imperativos anidados (`for` dentro de `for`) en favor de funciones de orden superior (`filter` y `map`).
-* **Justificación:** Este enfoque hace que el código sea más legible y menos propenso a errores de índices. Además, delega la iteración a las optimizaciones internas de la biblioteca estándar de Kotlin.
-
-### 4. Algoritmo de Subgrafo
-Para el método `subgrafo`, se implementó una estrategia constructiva de dos pasos:
-1.  **Filtrado de Vértices:** Primero se agregan todos los nodos válidos al nuevo grafo.
-2.  **Reconstrucción de Arcos:** Luego se iteran los vértices originales y se copian las conexiones solo si el destino también existe en el subgrafo.
-* **Justificación:** Esta separación garantiza que el método `conectar` nunca falle por falta de un vértice destino, y aprovecha la búsqueda rápida en el mapa (O(1)) para verificar si un vecino debe ser incluido, manteniendo la eficiencia del algoritmo.
-
-### 5. Manejo de Seguridad de Tipos (Null Safety)
-Se aprovechó el sistema de tipos de Kotlin para garantizar la robustez:
-* Uso del operador Elvis (`?:`) para retornar listas vacías cuando se consultan los vecinos de un vértice inexistente.
-* Uso de llamadas seguras para evitar `NullPointerException`, un error común en implementaciones en Java.
+Universidad Simón Bolívar, Caracas, Venezuela.
